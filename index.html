@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="대수·미적분Ⅰ 기초 문제를 단원·파트·배점(2~4점)별로 풀고, 힌트·풀이 필기·오답 노트를 쓰는 연습 사이트">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2714%27 fill=%27%232457e6%27/%3E%3Ctext x=%2732%27 y=%2745%27 font-size=%2738%27 text-anchor=%27middle%27 fill=%27white%27 font-family=%27serif%27%3E%E2%88%AB%3C/text%3E%3C/svg%3E">
+<title>대수·미적분Ⅰ 기초 문제</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* VOICE: 차분하고 군더더기 없는 학습 도구
+   IDEA: 잘 만든 앱의 한 장짜리 문제 카드 — 고르고, 풀고, 남긴다
+   PICTURE: 화면 중앙의 문제 카드가 곧 그림, 위는 얇은 필터 바
+   COLOUR and TYPE: 옅은 회색 바탕, 흰 카드, 파랑 하나 / IBM Plex Sans KR 한 가족
+   LAYOUT: 상단 바 → 필터 카드 → 문제 카드(힌트·노트·해설이 카드 안에서 펼쳐짐), 노트는 오른쪽 시트 */
+:root{color-scheme:light dark;--bg:light-dark(#f4f5f7,#0f1114);--card:light-dark(#fff,#181b20);--ink:light-dark(#111418,#eceef1);--mute:light-dark(#6b7280,#9aa1ab);--line:light-dark(#e4e6ea,#2a2e35);--soft:light-dark(#f1f3f6,#21252c);--acc:light-dark(#2457e6,#6b93ff);--accs:light-dark(#eaf0ff,#1b2540);--ok:light-dark(#11804a,#4ccf8a);--oks:light-dark(#e7f6ee,#15291f);--no:light-dark(#d03a2c,#ff7a6b);--nos:light-dark(#fdecea,#33191a)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "IBM Plex Sans KR",system-ui,sans-serif;overflow-x:clip}
+button,select,textarea,input{font:inherit;color:inherit}
+.wrap{max-width:760px;margin:0 auto;padding:0 max(4vw,14px) 56px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:20px 0 16px}
+h1{font-size:20px;font-weight:700;margin:0;letter-spacing:-.01em}
+h1 span{color:var(--mute);font-weight:500}
+.tr{display:flex;align-items:center;gap:8px}
+.stat{font-size:13px;color:var(--mute);white-space:nowrap}.stat b{color:var(--ink);font-weight:600}
+.ib{height:40px;padding:0 14px;border-radius:12px;border:1px solid var(--line);background:var(--card);cursor:pointer;display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:600;white-space:nowrap}
+.ib .cnt{background:var(--acc);color:#fff;border-radius:99px;font-size:11px;padding:1px 7px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px}
+.filters{padding:14px;display:grid;gap:10px}
+.fr{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
+.seg{display:flex;background:var(--soft);border-radius:12px;padding:3px;gap:2px}
+.seg button{flex:1;height:38px;border:0;background:none;border-radius:9px;cursor:pointer;font-size:14px;font-weight:600;color:var(--mute);white-space:nowrap}
+.seg button[aria-pressed=true]{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.sel{position:relative}
+.sel label{position:absolute;left:14px;top:6px;font-size:11px;color:var(--mute);pointer-events:none}
+.sel select{width:100%;height:52px;appearance:none;border:1px solid var(--line);background:var(--card);border-radius:12px;padding:16px 36px 0 13px;font-size:15px;font-weight:600;cursor:pointer}
+.sel::after{content:"";position:absolute;right:15px;top:23px;width:7px;height:7px;border-right:2px solid var(--mute);border-bottom:2px solid var(--mute);transform:rotate(45deg);pointer-events:none}
+.q{margin-top:14px;padding:clamp(20px,4vw,32px)}
+.meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:13px;color:var(--mute);margin-bottom:14px}
+.pill{background:var(--accs);color:var(--acc);font-weight:700;border-radius:8px;padding:2px 9px;font-size:13px}
+.no-{font-weight:700;color:var(--ink)}
+.qt{font-size:clamp(17px,2.3vw,18px);line-height:1.95;word-break:keep-all}
+mjx-container[display=true]{margin:.3em 0!important}
+.ch{list-style:none;padding:0;margin:22px 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:8px}
+.ch button{width:100%;min-height:54px;border:1px solid var(--line);background:var(--card);border-radius:12px;cursor:pointer;display:flex;align-items:center;gap:10px;padding:6px 12px;text-align:left;font-size:17px;transition:border-color .15s,background .15s}
+.ch button:hover:not(:disabled){border-color:var(--acc);background:var(--accs)}
+.ch button:disabled{cursor:default}
+.ch .n{flex:none;width:24px;height:24px;border-radius:7px;background:var(--soft);color:var(--mute);font-size:13px;font-weight:700;display:grid;place-items:center}
+.ch .ok button{border-color:var(--ok);background:var(--oks)}.ch .ok .n{background:var(--ok);color:#fff}
+.ch .bad button{border-color:var(--no);background:var(--nos)}.ch .bad .n{background:var(--no);color:#fff}
+.sa{display:flex;gap:8px;margin-top:22px;flex-wrap:wrap}
+.sa input{flex:1 1 160px;max-width:260px;height:50px;border:1px solid var(--line);border-radius:12px;background:var(--card);padding:0 14px;font-size:17px}
+.hint,.res{margin-top:18px;border-radius:12px;padding:12px 16px;font-size:15px;line-height:1.8}
+.hint{background:var(--accs)}
+.hint b{color:var(--acc);margin-right:6px}
+.res.ok{background:var(--oks)}.res.bad{background:var(--nos)}.res.giv{background:var(--soft)}
+.res .v{font-weight:700;margin-bottom:4px}
+.res.ok .v{color:var(--ok)}.res.bad .v{color:var(--no)}
+.memo{margin-top:14px}
+.memo textarea{width:100%;min-height:76px;border:1px solid var(--line);border-radius:12px;background:var(--card);padding:10px 12px;font-size:15px;resize:vertical}
+.memo small{font-size:12px;color:var(--mute)}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:22px;padding-top:16px;border-top:1px solid var(--line)}
+.bar .l,.bar .r{display:flex;gap:6px;flex-wrap:wrap}
+.gb{height:44px;padding:0 14px;border-radius:12px;border:0;background:var(--soft);cursor:pointer;font-size:14px;font-weight:600;white-space:nowrap}
+.gb[aria-pressed=true]{background:var(--accs);color:var(--acc)}
+.gb:disabled{opacity:.45;cursor:default}
+.pb{height:44px;padding:0 20px;border-radius:12px;border:0;background:var(--acc);color:#fff;cursor:pointer;font-size:15px;font-weight:600;white-space:nowrap}
+button:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.foot{font-size:12px;color:var(--mute);margin-top:18px;text-align:center}
+/* 노트 시트 */
+.scrim{position:fixed;inset:0;background:rgba(10,12,16,.38);opacity:0;pointer-events:none;transition:opacity .2s;z-index:5}
+.sheet{position:fixed;top:0;right:0;bottom:0;width:min(480px,100%);background:var(--bg);z-index:6;transform:translateX(100%);transition:transform .25s ease;display:flex;flex-direction:column}
+body.open .scrim{opacity:1;pointer-events:auto}body.open .sheet{transform:none}
+.sh{display:flex;align-items:center;justify-content:space-between;padding:18px 18px 10px}
+.sh h2{font-size:18px;margin:0}
+.sb{padding:0 18px 10px;display:grid;gap:10px}
+.auto{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--mute);cursor:pointer}
+.auto input{width:18px;height:18px;accent-color:var(--acc)}
+.list{overflow-y:auto;padding:4px 18px 30px;display:grid;gap:10px;align-content:start;flex:1}
+.nt{padding:16px}
+.nt .meta{margin-bottom:8px}
+.nt .qt{font-size:15.5px;line-height:1.85}
+.nt details{margin-top:10px;font-size:14.5px;line-height:1.8}
+.nt summary{cursor:pointer;color:var(--acc);font-weight:600;font-size:13px}
+.nt textarea{margin-top:10px;width:100%;min-height:56px;border:1px solid var(--line);border-radius:10px;background:var(--card);padding:8px 10px;font-size:14px;resize:vertical}
+.nt .del{margin-left:auto;border:0;background:none;color:var(--mute);cursor:pointer;font-size:13px;padding:4px 6px}
+.tag{font-size:12px;font-weight:600;border-radius:6px;padding:1px 7px;background:var(--nos);color:var(--no)}
+.empty{color:var(--mute);text-align:center;padding:40px 10px;font-size:14px}
+/* 풀이 필기 칸 */
+.padw{margin-top:20px;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.padh{display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:8px 10px;background:var(--soft);border-bottom:1px solid var(--line)}
+.padh .t{font-size:13px;font-weight:700;margin-right:4px}
+.tb{height:34px;min-width:34px;padding:0 10px;border-radius:9px;border:1px solid transparent;background:none;cursor:pointer;font-size:13px;font-weight:600;color:var(--mute);display:inline-flex;align-items:center;justify-content:center;gap:4px;white-space:nowrap}
+.tb[aria-pressed=true]{background:var(--card);color:var(--ink);border-color:var(--line)}
+.sw{width:16px;height:16px;border-radius:50%;display:block}
+.sp{flex:1}
+.fing{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--mute);cursor:pointer}
+.fing input{accent-color:var(--acc)}
+#pad{display:block;width:100%;height:340px;touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;overscroll-behavior:contain;cursor:crosshair;background-color:var(--card);background-image:linear-gradient(var(--soft) 1px,transparent 1px),linear-gradient(90deg,var(--soft) 1px,transparent 1px);background-size:24px 24px}
+#pad.er{cursor:none}
+.padbox{position:relative}
+.ering{position:absolute;display:none;pointer-events:none;border-radius:50%;border:1.5px solid var(--acc);background:color-mix(in srgb,var(--acc) 12%,transparent);transform:translate(-50%,-50%);box-shadow:0 0 0 1px var(--card)}
+.padtip{font-size:12px;color:var(--mute);padding:6px 10px;border-top:1px solid var(--line);background:var(--soft)}
+.eh{touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.eh[aria-pressed=true]{background:var(--acc)!important;color:#fff!important;border-color:var(--acc)!important}
+.mini{display:block;width:100%;margin-top:10px;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+@media(max-width:600px){.top{flex-wrap:wrap;padding-bottom:12px}.tr{width:100%;justify-content:space-between}.fr{grid-template-columns:minmax(0,1fr)}.ch{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.ch li:last-child{grid-column:1/-1}.bar .r{width:100%}.bar .r .pb{flex:1}}
+@media(prefers-reduced-motion:reduce){.sheet,.scrim{transition:none}}
+</style>
+<script>
+window.MathJax={tex:{inlineMath:[['\\(','\\)']]},svg:{fontCache:'global'}};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+</head>
+<body>
+<div class="wrap">
+<div class="top">
+<h1>기초 문제 <span>대수 · 미적분Ⅰ</span></h1>
+<div class="tr"><span class="stat" id="stat"></span><button class="ib" id="openNotes" aria-label="노트 열기">노트 <span class="cnt" id="ncnt">0</span></button></div>
+</div>
+<div class="card filters">
+<div class="seg" id="subj"></div>
+<div class="fr">
+<div class="sel"><label for="unit">단원</label><select id="unit"></select></div>
+<div class="sel"><label for="part">파트</label><select id="part"></select></div>
+</div>
+<div class="fr"><div class="seg" id="lvl"></div><div class="seg" id="mode"></div></div>
+</div>
+<article class="card q" id="paper" aria-live="polite"></article>
+<p class="foot">숫자가 매번 바뀌는 자동 생성 문제 · 노트와 기록은 이 브라우저에 저장돼요 · 키보드 1~5 선택, H 힌트, Enter 다음 문제</p>
+</div>
+<div class="scrim" id="scrim"></div>
+<aside class="sheet" id="sheet" aria-label="노트">
+<div class="sh"><h2>노트</h2><button class="ib" id="closeNotes">닫기</button></div>
+<div class="sb">
+<div class="seg" id="nf"><button data-nf="all" aria-pressed="true">전체</button><button data-nf="wrong" aria-pressed="false">틀린 문제</button><button data-nf="memo" aria-pressed="false">메모 있음</button></div>
+<label class="auto"><input type="checkbox" id="auto"> 틀린 문제는 노트에 자동 저장</label>
+</div>
+<div class="list" id="list"></div>
+</aside>
+<script>
+{
+const T=String.raw;
+const R=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const nz=(a,b)=>{let v;do v=R(a,b);while(v===0);return v};
+const gcd=(a,b)=>{a=Math.abs(a);b=Math.abs(b);while(b){[a,b]=[b,a%b]}return a||1};
+const F=(n,d=1)=>{if(d<0){n=-n;d=-d}const g=gcd(n,d);return{n:n/g,d:d/g}};
+const add=(a,b)=>F(a.n*b.d+b.n*a.d,a.d*b.d);
+const tx=f=>{if(typeof f==='number')f=F(f);if(f.d===1)return ''+f.n;return (f.n<0?'-':'')+'\\frac{'+Math.abs(f.n)+'}{'+f.d+'}'};
+const P=terms=>{let s='';for(const [c,v] of terms){if(c===0)continue;const a=Math.abs(c);const body=(a===1&&v)?v:(a+v);if(!s)s=(c<0?'-':'')+body;else s+=(c<0?' - ':' + ')+body}return s||'0'};
+const sg=n=>n===0?'':(n>0?' + '+n:' - '+(-n));
+const pr=n=>n<0?'('+n+')':''+n;
+const fpi=f=>{if(f.n===0)return '0';const s=f.n<0?'-':'',a=Math.abs(f.n);if(f.d===1)return s+(a===1?'':a)+'\\pi';return s+'\\frac{'+(a===1?'':a)+'\\pi}{'+f.d+'}'};
+const xm=r=>'x'+sg(-r);
+const cf=(c)=>c===1?'':c===-1?'-':''+c;
+
+/* 삼각함수 표 (π/6 단위) */
+const SN=[F(0),F(1,2),null,F(1),null,F(1,2),F(0),F(-1,2),null,F(-1),null,F(-1,2)];
+const CS=[F(1),null,F(1,2),F(0),F(-1,2),null,F(-1),null,F(-1,2),F(0),F(1,2),null];
+const ang=tb=>{let k;do k=R(0,11);while(!tb[k]);return [k+pick([0,0,12,-12]),tb[k]]};
+const SV=()=>{const [n,d]=pick([[1,2],[1,3],[2,3],[1,5],[3,5],[1,4],[3,4]]);return [pick([1,-1])*n,d]};
+
+/* 미분용 삼차함수 */
+const cub=()=>{const a=R(-3,3),b=R(-4,4),c=R(-3,3);return{a,b,c,t:P([[1,'x^{3}'],[a,'x^{2}'],[b,'x'],[c,'']]),v:x=>x**3+a*x*x+b*x+c,d:x=>3*x*x+2*a*x+b}};
+const arg=(r,c)=>r===0?P([[c,'h']]):r+(c<0?'-':'+')+(Math.abs(c)===1?'':Math.abs(c))+'h';
+
+const DATA={
+alg:{name:'대수',units:[
+{name:'지수와 로그',parts:[
+{name:'거듭제곱근',g:[
+()=>{const n=pick([3,4]),k=n===3?R(2,6):R(2,4),a=R(1,n-1),u=k**a,v=k**(n-a);
+return{q:T`\(\sqrt[${n}]{${u}}\times\sqrt[${n}]{${v}}\)의 값은?`,a:F(k),s:T`\(\sqrt[${n}]{${u}\times${v}}=\sqrt[${n}]{${k}^{${n}}}=${k}\)`}},
+()=>{const s=pick([-8,-6,-5,-3,3,5,7,10]),N=R(5,12);let t=0;for(let n=2;n<=N;n++)t+=n%2?1:(s>0?2:0);
+return{q:T`2 이상 ${N} 이하의 자연수 \(n\)에 대하여 \(${s}\)의 \(n\)제곱근 중 실수인 것의 개수를 \(f(n)\)이라 할 때, \(f(2)+f(3)+\cdots+f(${N})\)의 값은?`,a:F(t),s:T`${s>0?'양수':'음수'}의 \(n\)제곱근 중 실수인 것은 \(n\)이 홀수이면 1개, 짝수이면 ${s>0?'2개':'0개'}입니다. 짝수 ${Math.floor(N/2)}개, 홀수 ${Math.floor((N-1)/2)}개를 더하면 ${t}입니다.`}},
+()=>{const a=R(3,6),b=a+R(1,4),N=b+R(1,3);let t=0;for(let n=2;n<=N;n++){const v=(n-a)*(n-b);t+=v===0?1:v>0?(n%2?1:2):(n%2?1:0)}
+return{q:T`2 이상 ${N} 이하의 자연수 \(n\)에 대하여 \(${P([[1,'n^{2}'],[-(a+b),'n'],[a*b,'']])}\)의 \(n\)제곱근 중 실수인 것의 개수를 \(f(n)\)이라 하자. \(f(2)+f(3)+\cdots+f(${N})\)의 값은?`,a:F(t),s:T`주어진 식은 \((n-${a})(n-${b})\)입니다. \(n<${a}\) 또는 \(n>${b}\)이면 양수(홀수 1개, 짝수 2개), \(${a}<n<${b}\)이면 음수(홀수 1개, 짝수 0개), \(n=${a},\,${b}\)이면 0이므로 1개입니다. 모두 더하면 ${t}입니다.`}}]},
+{name:'지수',g:[
+()=>{const b=pick([2,3]),m=b===2?pick([2,3,4]):pick([2,3]);let p,q,d;do{p=R(1,2*m);d=R(0,2);q=p-d}while(p%m===0||q<1);const g=gcd(p,m),N=b**m;
+return{q:T`\(${N}^{\frac{${p/g}}{${m/g}}}\times${b}^{-${q}}\)의 값은?`,a:F(b**d),s:T`\(${N}=${b}^{${m}}\)이므로 \(${N}^{\frac{${p/g}}{${m/g}}}=${b}^{${p}}\). 따라서 \(${b}^{${p}-${q}}=${b}^{${d}}=${b**d}\)`}},
+()=>{const k=R(2,6),A=F(k*k-k+1,k);return{q:T`양수 \(a\)와 실수 \(x\)에 대하여 \(a^{2x}=${k}\)일 때, \(\dfrac{a^{3x}+a^{-3x}}{a^{x}+a^{-x}}\)의 값은?`,a:A,s:T`\(A^{3}+B^{3}=(A+B)(A^{2}-AB+B^{2})\)를 쓰면 주어진 식은 \(a^{2x}-1+a^{-2x}=${k}-1+\frac{1}{${k}}=${tx(A)}\)`}},
+()=>{const c=pick([2,3]),k=pick([12,18,24,30,36,40,48,60,72]),h=k/2,L=[];for(let n=2;n<=h;n++)if(h%n===0)L.push(n);
+return{q:T`\(\left(\sqrt{${c}^{${k}}}\right)^{\frac{1}{n}}\)의 값이 자연수가 되도록 하는 2 이상의 자연수 \(n\)의 개수는?`,a:F(L.length),s:T`\(\left(\sqrt{${c}^{${k}}}\right)^{\frac{1}{n}}=${c}^{\frac{${h}}{n}}\)이 자연수이려면 \(n\)이 ${h}의 약수여야 합니다. 2 이상인 약수는 ${L.join(', ')}로 ${L.length}개입니다.`}}]},
+{name:'로그',g:[
+()=>{const b=pick([2,3,5]),n=R(1,3),y=pick([3,6,7,10,11].filter(v=>v%b)),x=b**n*y;
+return{q:T`\(\log_{${b}}${x}-\log_{${b}}${y}\)의 값은?`,a:F(n),s:T`\(\log_{${b}}\frac{${x}}{${y}}=\log_{${b}}${b**n}=${n}\)`}},
+()=>{const p=pick([2,3]),q=pick([5,7]),n=R(2,4),m=R(1,3);
+return{q:T`\(\log_{${p}}${q}\times\log_{${q}}${p**n}+\log_{${p*p}}${p**(2*m)}\)의 값은?`,a:F(n+m),s:T`밑 변환으로 \(\log_{${p}}${q}\times\log_{${q}}${p}^{${n}}=\log_{${p}}${p}^{${n}}=${n}\), \(\log_{${p}^{2}}${p}^{${2*m}}=\frac{${2*m}}{2}=${m}\). 합은 ${n+m}`}},
+()=>{const u=nz(-3,4),v=nz(-3,4),p=u+v,q=u*v,A=F(p*p-2*q,q);
+return{q:T`1이 아닌 두 양수 \(a,\,b\)가 \(\log_{2}a+\log_{2}b=${p}\), \(\log_{2}a\times\log_{2}b=${q}\)를 만족시킬 때, \(\log_{a}b+\log_{b}a\)의 값은?`,a:A,s:T`\(\log_{a}b+\log_{b}a=\dfrac{(\log_2 a)^2+(\log_2 b)^2}{\log_2 a\times\log_2 b}=\dfrac{${pr(p)}^{2}-2\times${pr(q)}}{${q}}=${tx(A)}\)`}}]}]},
+{name:'지수함수와 로그함수',parts:[
+{name:'지수함수',g:[
+()=>{const b=pick([2,3]),p=R(1,3),q=R(-5,5),k=p+R(0,3);return{q:T`함수 \(f(x)=${b}^{x-${p}}${sg(q)}\)에 대하여 \(f(${k})\)의 값은?`,a:F(b**(k-p)+q),s:T`\(f(${k})=${b}^{${k-p}}${sg(q)}=${b**(k-p)+q}\)`}},
+()=>{const b=pick([2,3]),p=R(1,3),e1=R(1,3),e2=R(0,e1-1),q=R(-4,4),s=p-e1,t=p-e2;
+return{q:T`\(${s}\le x\le ${t}\)에서 함수 \(y=\left(\frac{1}{${b}}\right)^{x-${p}}${sg(q)}\)의 최댓값을 \(M\), 최솟값을 \(m\)이라 할 때, \(M+m\)의 값은?`,a:F(b**e1+b**e2+2*q),s:T`밑이 1보다 작으므로 감소함수입니다. \(M\)은 \(x=${s}\)일 때 \(${b}^{${e1}}${sg(q)}\), \(m\)은 \(x=${t}\)일 때 \(${b}^{${e2}}${sg(q)}\). \(M+m=${b**e1+b**e2+2*q}\)`}},
+()=>{const k=R(1,3),c=R(-5,10),h=2**(k-1),g=t=>t*t-2**k*t+c,mn=c-h*h,mx=Math.max(g(1),g(8));
+return{q:T`\(0\le x\le 3\)에서 함수 \(y=4^{x}-2^{x+${k}}${sg(c)}\)의 최댓값과 최솟값의 합은?`,a:F(mx+mn),s:T`\(2^{x}=t\)라 하면 \(1\le t\le 8\)이고 \(y=t^{2}-${2**k}t${sg(c)}=(t-${h})^{2}${sg(c-h*h)}\). 최솟값은 \(t=${h}\)일 때 ${mn}, 최댓값은 \(t=${g(8)>=g(1)?8:1}\)일 때 ${mx}. 합은 ${mx+mn}`}}]},
+{name:'로그함수',g:[
+()=>{const b=pick([2,3]),p=R(1,4),q=R(-3,4),n=R(1,3),x=b**n-p;return{q:T`함수 \(f(x)=\log_{${b}}(x+${p})${sg(q)}\)에 대하여 \(f(${x})\)의 값은?`,a:F(n+q),s:T`\(f(${x})=\log_{${b}}${b**n}${sg(q)}=${n+q}\)`}},
+()=>{const a=R(1,5),d=pick([2,4,8]),bb=R(-3,4),l=Math.log2(d),Y=l+bb;return{q:T`함수 \(y=\log_{2}(x-a)+b\)의 그래프의 점근선이 직선 \(x=${a}\)이고, 이 그래프가 점 \((${a+d},\,${Y})\)를 지날 때, 상수 \(a,\,b\)에 대하여 \(a+b\)의 값은?`,a:F(a+bb),s:T`점근선이 \(x=a\)이므로 \(a=${a}\). \(${Y}=\log_{2}${d}+b=${l}+b\)에서 \(b=${bb}\). \(a+b=${a+bb}\)`}},
+()=>{const m=R(1,3),N=m+R(1,2),c=R(-2,6);return{q:T`\(1\le x\le ${2**N}\)에서 함수 \(y=(\log_{2}x)^{2}-\log_{2}x^{${2*m}}${sg(c)}\)는 \(x=\alpha\)에서 최솟값 \(\beta\)를 갖는다. \(\alpha+\beta\)의 값은?`,a:F(2**m+c-m*m),s:T`\(\log_{2}x=t\)라 하면 \(0\le t\le ${N}\)이고 \(y=t^{2}-${2*m}t${sg(c)}=(t-${m})^{2}${sg(c-m*m)}\). \(t=${m}\), 즉 \(\alpha=${2**m}\)에서 최솟값 \(\beta=${c-m*m}\). 합은 ${2**m+c-m*m}`}}]},
+{name:'방정식·부등식',g:[
+()=>{const b=pick([2,3]),m=pick([2,3]),N=b**m,k=R(1,3),p=nz(-3,3);return{q:T`방정식 \(${b}^{x${sg(p)}}=${N}^{${k}}\)의 해는?`,a:F(m*k-p),s:T`\(${N}^{${k}}=${b}^{${m*k}}\)이므로 \(x${sg(p)}=${m*k}\), \(x=${m*k-p}\)`}},
+()=>{const c=pick([2,3]),a=R(-3,5),n=c===2?R(2,4):R(1,2);return{q:T`부등식 \(\log_{${c}}(${xm(a)})\le ${n}\)을 만족시키는 정수 \(x\)의 개수는?`,a:F(c**n),s:T`진수 조건에서 \(x>${a}\), 부등식에서 \(${xm(a)}\le ${c**n}\). 즉 \(${a}<x\le ${a+c**n}\)이므로 정수는 ${c**n}개`}},
+()=>{let r1,r2,S;do{r1=R(-3,1);r2=r1+R(2,5);S=r1+r2}while(S===0);const Pv=r1*r2,b=pick([2,3]);let sum=0;for(let x=r1;x<=r2;x++)sum+=x;const L=P([[1,'x^{2}'],[Pv,'']]),Rr=P([[S,'x']]);
+return{q:T`부등식 \(\left(\frac{1}{${b}}\right)^{${L}}\ge\left(\frac{1}{${b}}\right)^{${Rr}}\)을 만족시키는 모든 정수 \(x\)의 값의 합은?`,a:F(sum),s:T`밑이 1보다 작으므로 지수의 대소가 바뀝니다. \(${L}\le ${Rr}\), \((${xm(r1)})(${xm(r2)})\le0\)에서 \(${r1}\le x\le ${r2}\). 정수의 합은 ${sum}`}}]}]},
+{name:'삼각함수',parts:[
+{name:'호도법·부채꼴',g:[
+()=>{const d=pick([30,45,60,120,135,150,210,225,240,300,315,330]),f=F(d,180);return{q:T`\(${d}^{\circ}\)를 호도법으로 나타내면 \(k\pi\)이다. \(k\)의 값은?`,a:f,s:T`\(180^{\circ}=\pi\)이므로 \(${d}^{\circ}=${d}\times\frac{\pi}{180}=${fpi(f)}\)`}},
+()=>{const r=R(2,8),[p,q]=pick([[1,6],[1,4],[1,3],[1,2],[2,3],[3,4],[5,6]]),l=F(r*p,q),S=F(r*r*p,2*q);return{q:T`호의 길이가 \(${fpi(l)}\)이고 넓이가 \(${fpi(S)}\)인 부채꼴의 반지름의 길이는?`,a:F(r),s:T`\(S=\frac{1}{2}rl\)이므로 \(${fpi(S)}=\frac{1}{2}\times r\times${fpi(l)}\), \(r=${r}\)`}},
+()=>{const k=R(2,6),L=4*k;return{q:T`둘레의 길이가 \(${L}\)인 부채꼴의 넓이의 최댓값은?`,a:F(k*k),s:T`반지름을 \(r\)이라 하면 호의 길이는 \(${L}-2r\). 넓이 \(S=\frac{1}{2}r(${L}-2r)=-(r-${k})^{2}+${k*k}\)이므로 \(r=${k}\)일 때 최댓값 ${k*k}`}}]},
+{name:'삼각함수의 값',g:[
+()=>{const [a,va]=ang(SN),[b,vb]=ang(CS),A=add(va,vb);return{q:T`\(\sin\left(${fpi(F(a,6))}\right)+\cos\left(${fpi(F(b,6))}\right)\)의 값은?`,a:A,s:T`\(\sin\left(${fpi(F(a,6))}\right)=${tx(va)}\), \(\cos\left(${fpi(F(b,6))}\right)=${tx(vb)}\)이므로 합은 \(${tx(A)}\)`}},
+()=>{const [n,d]=SV(),A=F(n*n-d*d,2*d*d);return{q:T`\(\sin\theta+\cos\theta=${tx(F(n,d))}\)일 때, \(\sin\theta\cos\theta\)의 값은?`,a:A,s:T`양변을 제곱하면 \(1+2\sin\theta\cos\theta=${tx(F(n*n,d*d))}\)이므로 \(\sin\theta\cos\theta=${tx(A)}\)`}},
+()=>{const [n,d]=SV(),sc=F(d*d-n*n,2*d*d),t=pick([0,1]),A=t?F(2*d*d,d*d-n*n):F(n*(3*d*d-n*n),2*d*d*d);
+return{q:T`\(\sin\theta-\cos\theta=${tx(F(n,d))}\)일 때, ${t?T`\(\tan\theta+\dfrac{1}{\tan\theta}\)`:T`\(\sin^{3}\theta-\cos^{3}\theta\)`}의 값은?`,a:A,s:T`제곱하면 \(1-2\sin\theta\cos\theta=${tx(F(n*n,d*d))}\), \(\sin\theta\cos\theta=${tx(sc)}\). ${t?T`\(\tan\theta+\frac{1}{\tan\theta}=\frac{1}{\sin\theta\cos\theta}\)`:T`\(\sin^{3}\theta-\cos^{3}\theta=(\sin\theta-\cos\theta)(1+\sin\theta\cos\theta)\)`}\(=${tx(A)}\)`}}]},
+{name:'삼각함수의 그래프',g:[
+()=>{const a=R(1,5),b=R(1,4),c=R(-3,3),f=pick(['\\sin','\\cos']),mx=pick([1,0]),v=mx?a+c:c-a;return{q:T`함수 \(y=${cf(a)}${f}\,${cf(b)}x${sg(c)}\)의 ${mx?'최댓값':'최솟값'}은?`,a:F(v),s:T`\(-1\le${f}\,${cf(b)}x\le1\)이므로 ${mx?'최댓값':'최솟값'}은 \(${mx?'':'-'}${a}${sg(c)}=${v}\)`}},
+()=>{const a=R(1,5),b=R(1,4),c=R(-3,4);return{q:T`함수 \(f(x)=a\sin bx+c\) \((a>0,\ b>0)\)의 최댓값이 \(${a+c}\), 최솟값이 \(${c-a}\), 주기가 \(${fpi(F(2,b))}\)일 때, \(a+b+c\)의 값은?`,a:F(a+b+c),s:T`\(a+c=${a+c}\), \(-a+c=${c-a}\)에서 \(a=${a},\ c=${c}\). 주기 \(\frac{2\pi}{b}=${fpi(F(2,b))}\)에서 \(b=${b}\). 합은 ${a+b+c}`}},
+()=>{const fn=pick(['sin','cos']),SO={sin:{2:[3],'-2':[9],0:[0,6],1:[1,5],'-1':[7,11]},cos:{2:[0],'-2':[6],0:[3,9],1:[2,10],'-1':[4,8]}};let h1,h2;do{h1=R(-2,2);h2=R(-2,2)}while(h1===h2);
+const A=4,B=-2*(h1+h2),C=h1*h2,ot=fn==='sin'?'\\cos':'\\sin',t=fn==='sin'?'\\sin':'\\cos';let c2=-A,c1=B,c0=C+A;const g=gcd(gcd(c2,c1),c0);c2/=g;c1/=g;c0/=g;if(c2<0){c2=-c2;c1=-c1;c0=-c0}
+const ro=[...SO[fn][h1],...SO[fn][h2]].sort((x,y)=>x-y),sum=ro.reduce((x,y)=>x+y,0);
+return{q:T`\(0\le x<2\pi\)일 때, 방정식 \(${P([[c2,ot+'^{2}x'],[c1,t+' x'],[c0,'']])}=0\)의 모든 실근의 합을 \(k\pi\)라 하자. \(k\)의 값은?`,a:F(sum,6),s:T`\(${ot}^{2}x=1-${t}^{2}x\)를 대입해 정리하면 \(${t} x=${tx(F(h1,2))}\) 또는 \(${t} x=${tx(F(h2,2))}\). 실근은 \(${ro.map(r=>fpi(F(r,6))).join(',\\ ')}\)이므로 합은 \(${fpi(F(sum,6))}\)`}}]},
+{name:'사인·코사인법칙',g:[
+()=>{const b=R(2,8),c=R(2,8),A=pick([60,120]),a2=b*b+c*c+(A===60?-b*c:b*c);return{q:T`삼각형 ABC에서 \(\overline{AB}=${c}\), \(\overline{CA}=${b}\), \(\angle A=${A}^{\circ}\)일 때, \(\overline{BC}^{2}\)의 값은?`,a:F(a2),s:T`코사인법칙 \(a^{2}=b^{2}+c^{2}-2bc\cos A=${b*b}+${c*c}${A===60?'-':'+'}${b*c}=${a2}\)`}},
+()=>{const A=pick([30,150,90]),a=A===90?2*R(1,5):R(2,9),k=A===90?a*a/4:a*a;return{q:T`삼각형 ABC에서 \(\overline{BC}=${a}\), \(\angle A=${A}^{\circ}\)일 때, 삼각형 ABC의 외접원의 넓이는 \(k\pi\)이다. \(k\)의 값은?`,a:F(k),s:T`사인법칙 \(2R=\frac{${a}}{\sin ${A}^{\circ}}=${A===90?a:2*a}\)이므로 \(R=${A===90?a/2:a}\), 넓이 \(${k}\pi\)`}},
+()=>{const T0=pick([[13,14,15,84],[5,5,6,12],[5,5,8,12],[10,13,13,60],[9,10,17,36],[7,15,20,42],[10,17,21,84],[6,25,29,60]]),s=pick([1,1,2]),sd=[T0[0]*s,T0[1]*s,T0[2]*s].sort(()=>Math.random()-.5),[x,y,z]=sd,K=T0[3]*s*s,A=F(x*y*z,4*K),cA=F(y*y+z*z-x*x,2*y*z),sA=F(2*K,y*z);
+return{q:T`세 변의 길이가 \(\overline{BC}=${x}\), \(\overline{CA}=${y}\), \(\overline{AB}=${z}\)인 삼각형 ABC의 외접원의 반지름의 길이는?`,a:A,s:T`코사인법칙으로 \(\cos A=${tx(cA)}\), \(\sin A=\sqrt{1-\cos^{2}A}=${tx(sA)}\). 사인법칙 \(2R=\dfrac{${x}}{\sin A}\)에서 \(R=${tx(A)}\)`}}]}]},
+{name:'수열',parts:[
+{name:'등차수열',g:[
+()=>{const a1=R(-5,10),d=nz(-4,5),n=R(6,12);return{q:T`등차수열 \(\{a_n\}\)에서 \(a_1=${a1}\), \(a_3=${a1+2*d}\)일 때, \(a_{${n}}\)의 값은?`,a:F(a1+(n-1)*d),s:T`공차 \(d=\frac{${a1+2*d}-${pr(a1)}}{2}=${d}\). \(a_{${n}}=${a1}+${n-1}\times${pr(d)}=${a1+(n-1)*d}\)`}},
+()=>{const a1=R(-6,8),d=nz(-3,4),u=a1+2*d,v=a1+6*d;return{q:T`등차수열 \(\{a_n\}\)에서 \(a_3=${u}\), \(a_7=${v}\)일 때, 첫째항부터 제10항까지의 합은?`,a:F(10*a1+45*d),s:T`\(4d=${v}-${pr(u)}\)에서 \(d=${d}\), \(a_1=${a1}\). \(S_{10}=\frac{10\{2\times${pr(a1)}+9\times${pr(d)}\}}{2}=${10*a1+45*d}\)`}},
+()=>{const a1=R(20,45),d=-pick([2,3,4,5]);let best=-1e9,bn=0,S=0;for(let n=1;n<=60;n++){S+=a1+(n-1)*d;if(S>best){best=S;bn=n}}
+return{q:T`등차수열 \(\{a_n\}\)에서 \(a_2=${a1+d}\), \(a_6=${a1+5*d}\)이다. 첫째항부터 제\(n\)항까지의 합 \(S_n\)의 최댓값은?`,a:F(best),s:T`\(4d=${a1+5*d}-${a1+d}\)에서 \(d=${d}\), \(a_1=${a1}\). \(a_n=${a1}${sg(d)}(n-1)\)이 양수(또는 0)인 항까지 더할 때 최대이므로 \(n=${bn}\)일 때 \(S_{${bn}}=${best}\)`}}]},
+{name:'등비수열',g:[
+()=>{const a1=pick([1,2,3,5]),r=pick([2,3,-2]),n=r===3?R(4,5):R(4,6);return{q:T`등비수열 \(\{a_n\}\)에서 \(a_1=${a1}\), \(a_2=${a1*r}\)일 때, \(a_{${n}}\)의 값은?`,a:F(a1*r**(n-1)),s:T`공비 \(r=${r}\). \(a_{${n}}=${a1}\times${pr(r)}^{${n-1}}=${a1*r**(n-1)}\)`}},
+()=>{const a1=nz(-3,3),r=pick([2,-2,3,-3]);return{q:T`공비가 실수인 등비수열 \(\{a_n\}\)에서 \(a_2=${a1*r}\), \(a_5=${a1*r**4}\)일 때, \(a_4\)의 값은?`,a:F(a1*r**3),s:T`\(r^{3}=\frac{a_5}{a_2}=${r**3}\)이므로 \(r=${r}\). \(a_4=a_2\times r^{2}=${a1*r**3}\)`}},
+()=>{const r=pick([2,-2,2,3]),a1=r===3?1:nz(-3,3),S3=a1*(1+r+r*r),S6=S3*(1+r**3),S9=S3*(1+r**3+r**6);return{q:T`등비수열 \(\{a_n\}\)의 첫째항부터 제\(n\)항까지의 합을 \(S_n\)이라 하자. \(S_3=${S3}\), \(S_6=${S6}\)일 때, \(S_9\)의 값은?`,a:F(S9),s:T`\(S_6-S_3=r^{3}S_3\)에서 \(r^{3}=${r**3}\). \(S_9=S_6+r^{6}S_3=${S6}+${r**6}\times${pr(S3)}=${S9}\)`}}]},
+{name:'합의 기호 ∑',g:[
+()=>{const a=nz(-3,4),b=R(-5,5),n=R(5,10),v=a*n*(n+1)/2+b*n;return{q:T`\(\displaystyle\sum_{k=1}^{${n}}(${P([[a,'k'],[b,'']])})\)의 값은?`,a:F(v),s:T`\(${a}\times\frac{${n}\times${n+1}}{2}${sg(b)}\times${n}=${v}\)`}},
+()=>{if(Math.random()<.5){const c=nz(-4,4),n=R(4,8),v=n*(n+1)*(2*n+1)/6+c*n*(n+1)/2;return{q:T`\(\displaystyle\sum_{k=1}^{${n}}(${P([[1,'k^{2}'],[c,'k']])})\)의 값은?`,a:F(v),s:T`\(\frac{${n}\times${n+1}\times${2*n+1}}{6}${sg(c)}\times\frac{${n}\times${n+1}}{2}=${v}\)`}}
+const p=R(-10,20),q=R(-10,20),m=pick([2,3]),c=nz(-3,3),v=m*p-q+10*c;return{q:T`\(\displaystyle\sum_{k=1}^{10}a_k=${p}\), \(\displaystyle\sum_{k=1}^{10}b_k=${q}\)일 때, \(\displaystyle\sum_{k=1}^{10}(${m}a_k-b_k${sg(c)})\)의 값은?`,a:F(v),s:T`\(${m}\times${pr(p)}-${pr(q)}${sg(c)}\times10=${v}\)`}},
+()=>{const t=R(0,3);if(t===0){const n=R(5,20);return{q:T`\(\displaystyle\sum_{k=1}^{${n}}\frac{1}{k(k+1)}\)의 값은?`,a:F(n,n+1),s:T`\(\frac{1}{k(k+1)}=\frac{1}{k}-\frac{1}{k+1}\)이므로 합은 \(1-\frac{1}{${n+1}}=${tx(F(n,n+1))}\)`}}
+if(t===1){const n=R(4,15);return{q:T`\(\displaystyle\sum_{k=1}^{${n}}\frac{1}{(2k-1)(2k+1)}\)의 값은?`,a:F(n,2*n+1),s:T`\(\frac{1}{(2k-1)(2k+1)}=\frac{1}{2}\left(\frac{1}{2k-1}-\frac{1}{2k+1}\right)\)이므로 합은 \(\frac{1}{2}\left(1-\frac{1}{${2*n+1}}\right)=${tx(F(n,2*n+1))}\)`}}
+if(t===2){const m=R(3,9),n=m*m-1;return{q:T`\(\displaystyle\sum_{k=1}^{${n}}\frac{1}{\sqrt{k+1}+\sqrt{k}}\)의 값은?`,a:F(m-1),s:T`분모를 유리화하면 \(\sqrt{k+1}-\sqrt{k}\)이므로 합은 \(\sqrt{${n+1}}-1=${m-1}\)`}}
+const n=R(4,12),A=F(3*(n+1)*(n+2)-2*(2*n+3),2*(n+1)*(n+2));return{q:T`\(\displaystyle\sum_{k=1}^{${n}}\frac{2}{k(k+2)}\)의 값은?`,a:A,s:T`\(\frac{2}{k(k+2)}=\frac{1}{k}-\frac{1}{k+2}\)이므로 합은 \(1+\frac{1}{2}-\frac{1}{${n+1}}-\frac{1}{${n+2}}=${tx(A)}\)`}}]},
+{name:'귀납적 정의',g:[
+()=>{const a1=R(1,5),p=pick([2,3,-1]),q=nz(-3,3),N=p===3?4:5,L=[a1];for(let i=1;i<N;i++)L.push(p*L[i-1]+q);return{q:T`수열 \(\{a_n\}\)이 \(a_1=${a1}\), \(a_{n+1}=${P([[p,'a_n'],[q,'']])}\ (n\ge1)\)을 만족시킬 때, \(a_{${N}}\)의 값은?`,a:F(L[N-1]),s:T`차례로 구하면 \(${L.join(',\\ ')}\)`}},
+()=>{const a1=R(1,20),p=pick([1,3,5]),N=R(6,8),L=[a1];for(let i=1;i<N;i++){const v=L[i-1];L.push(v%2?v+p:v/2)}return{q:T`수열 \(\{a_n\}\)이 \(a_1=${a1}\)이고 모든 자연수 \(n\)에 대하여 \(a_{n+1}=\begin{cases}\dfrac{a_n}{2} & (a_n\text{이 짝수})\\ a_n+${p} & (a_n\text{이 홀수})\end{cases}\)를 만족시킬 때, \(a_{${N}}\)의 값은?`,a:F(L[N-1]),s:T`차례로 구하면 \(${L.join(',\\ ')}\)`}},
+()=>{const T0=R(1,4),p=pick([1,3,5]),k=pick([5,6]),nx=a=>a%2?a+p:a/2,L=[];for(let a=1;a<=T0*2**(k-1);a++){let v=a;for(let i=1;i<k;i++)v=nx(v);if(v===T0)L.push(a)}const sum=L.reduce((x,y)=>x+y,0);
+return{q:T`수열 \(\{a_n\}\)이 모든 자연수 \(n\)에 대하여 \(a_{n+1}=\begin{cases}\dfrac{a_n}{2} & (a_n\text{이 짝수})\\ a_n+${p} & (a_n\text{이 홀수})\end{cases}\)를 만족시킨다. \(a_${k}=${T0}\)을 만족시키는 모든 자연수 \(a_1\)의 값의 합은?`,a:F(sum),s:T`\(a_${k}\)에서 거꾸로 앞 항을 구합니다. 앞 항은 항상 \(2a\)가 가능하고, \(a-${p}\)가 홀수인 자연수이면 그것도 가능합니다. 가능한 \(a_1\)은 \(${L.join(',\\ ')}\)이므로 합은 ${sum}`}}]}]}]},
+calc:{name:'미적분Ⅰ',units:[
+{name:'함수의 극한과 연속',parts:[
+{name:'극한 계산',g:[
+()=>{const r=nz(-3,4);let s;do s=R(-4,4);while(s===r);return{q:T`\(\displaystyle\lim_{x\to ${r}}\frac{${P([[1,'x^{2}'],[-(r+s),'x'],[r*s,'']])}}{${xm(r)}}\)의 값은?`,a:F(r-s),s:T`분자를 인수분해하면 \((${xm(r)})(${xm(s)})\)이므로 극한값은 \(${r}${sg(-s)}=${r-s}\)`}},
+()=>{if(Math.random()<.5){const p=nz(-8,8),q=R(-5,5);return{q:T`\(\displaystyle\lim_{x\to\infty}\left(\sqrt{${P([[1,'x^{2}'],[p,'x'],[q,'']])}}-x\right)\)의 값은?`,a:F(p,2),s:T`분자를 유리화하면 \(\dfrac{${P([[p,'x'],[q,'']])}}{\sqrt{x^{2}+\cdots}+x}\to\dfrac{${p}}{2}\)`}}
+const a=nz(-4,5),b=R(1,4),c=R(-5,5),e=R(-5,5),f=R(-5,5);return{q:T`\(\displaystyle\lim_{x\to\infty}\frac{${P([[a,'x^{2}'],[c,'x'],[e,'']])}}{${P([[b,'x^{2}'],[f,'x'],[1,'']])}}\)의 값은?`,a:F(a,b),s:T`분모·분자를 \(x^{2}\)으로 나누면 최고차항 계수의 비 \(\frac{${a}}{${b}}=${tx(F(a,b))}\)`}},
+()=>{if(Math.random()<.5){const p=nz(-8,8),q=R(-5,5);return{q:T`\(\displaystyle\lim_{x\to-\infty}\left(\sqrt{${P([[1,'x^{2}'],[p,'x'],[q,'']])}}+x\right)\)의 값은?`,a:F(-p,2),s:T`\(x=-t\)로 놓으면 \(\displaystyle\lim_{t\to\infty}\left(\sqrt{${P([[1,'t^{2}'],[-p,'t'],[q,'']])}}-t\right)=${tx(F(-p,2))}\). 부호에 주의!`}}
+const c=R(2,4),a=nz(1,5),b=c*c-a;return{q:T`\(\displaystyle\lim_{x\to ${a}}\frac{${P([[1,'x^{2}'],[-a*a,'']])}}{\sqrt{${P([[1,'x'],[b,'']])}}-${c}}\)의 값은?`,a:F(4*a*c),s:T`분모를 유리화하면 \(\dfrac{(x+${a})(x-${a})(\sqrt{\cdots}+${c})}{x-${a}}\to ${2*a}\times${2*c}=${4*a*c}\)`}}]},
+{name:'미정계수',g:[
+()=>{const r=nz(-3,4);let s;do s=nz(-4,4);while(s===r);const C=r*s;return{q:T`\(\displaystyle\lim_{x\to ${r}}\frac{x^{2}+ax${sg(C)}}{${xm(r)}}\)의 값이 존재할 때, 상수 \(a\)의 값은?`,a:F(-(r+s)),s:T`분모 \(\to0\)이므로 분자 \(\to0\): \(${r*r}+${pr(r)}a${sg(C)}=0\), \(a=${-(r+s)}\)`}},
+()=>{const r=nz(-3,3),L=nz(-6,6),a=L-2*r,b=-r*r-a*r;return{q:T`\(\displaystyle\lim_{x\to ${r}}\frac{x^{2}+ax+b}{${xm(r)}}=${L}\)일 때, 상수 \(a,\,b\)에 대하여 \(a+b\)의 값은?`,a:F(a+b),s:T`분자는 \(x=${r}\)에서 0이므로 \((${xm(r)})(x+m)\) 꼴, 극한값 \(${r}+m=${L}\)에서 \(m=${L-r}\). 전개하면 \(a=${a},\ b=${b}\)`}},
+()=>{const p=nz(-3,3),q=nz(-4,4),k=R(1,3),v=k**3+p*k*k+q*k;return{q:T`다항함수 \(f(x)\)가 \(\displaystyle\lim_{x\to\infty}\frac{f(x)-x^{3}}{x^{2}}=${p}\), \(\displaystyle\lim_{x\to0}\frac{f(x)}{x}=${q}\)를 만족시킬 때, \(f(${k})\)의 값은?`,a:F(v),s:T`첫 조건에서 \(f(x)=x^{3}${sg(p)}x^{2}+ax+b\) 꼴. 둘째 조건에서 \(b=0,\ a=${q}\). \(f(${k})=${v}\)`}}]},
+{name:'연속',g:[
+()=>{const r=nz(-4,5);return{q:T`함수 \(f(x)=\begin{cases}\dfrac{x^{2}-${r*r}}{${xm(r)}} & (x\ne ${r})\\ a & (x=${r})\end{cases}\)가 \(x=${r}\)에서 연속일 때, 상수 \(a\)의 값은?`,a:F(2*r),s:T`\(\displaystyle\lim_{x\to ${r}}(x${sg(r)})=${2*r}=a\)`}},
+()=>{const r=R(2,4),a=R(-4,4),p=r*r+a-a*r;return{q:T`함수 \(f(x)=\begin{cases}ax${sg(p)} & (x<${r})\\ x^{2}+a & (x\ge ${r})\end{cases}\)가 실수 전체의 집합에서 연속일 때, \(f(${r+1})\)의 값은?`,a:F((r+1)**2+a),s:T`\(x=${r}\)에서 \(${r}a${sg(p)}=${r*r}+a\)이므로 \(a=${a}\). \(f(${r+1})=${(r+1)**2}${sg(a)}=${(r+1)**2+a}\)`}},
+()=>{const t1=R(-3,0),t2=t1+R(1,4),m=R(-2,3),c1=(m-t1)+nz(-3,3),c3=(m-t2)+nz(-3,3),k=t2+R(1,2),v=(k-t1)*(k-t2);
+return{q:T`함수 \(f(x)=\begin{cases}x${sg(c1)} & (x<${t1})\\ ${m} & (${t1}\le x<${t2})\\ x${sg(c3)} & (x\ge ${t2})\end{cases}\)와 \(g(x)=x^{2}+ax+b\)에 대하여 함수 \(f(x)g(x)\)가 실수 전체의 집합에서 연속일 때, \(g(${k})\)의 값은?`,a:F(v),s:T`\(f\)는 \(x=${t1},\ ${t2}\)에서 불연속이므로 \(g(${t1})=g(${t2})=0\), \(g(x)=(${xm(t1)})(${xm(t2)})\). \(g(${k})=${v}\)`}}]}]},
+{name:'미분',parts:[
+{name:'미분계수',g:[
+()=>{const f=cub(),r=R(-2,2);return{q:T`함수 \(f(x)=${f.t}\)에 대하여 \(\displaystyle\lim_{h\to0}\frac{f(${arg(r,1)})-f(${r})}{h}\)의 값은?`,a:F(f.d(r)),s:T`미분계수 \(f'(${r})\). \(f'(x)=${P([[3,'x^{2}'],[2*f.a,'x'],[f.b,'']])}\)이므로 ${f.d(r)}`}},
+()=>{const f=cub(),r=R(-2,2),p=R(1,3),q=R(1,3);return{q:T`함수 \(f(x)=${f.t}\)에 대하여 \(\displaystyle\lim_{h\to0}\frac{f(${arg(r,p)})-f(${arg(r,-q)})}{h}\)의 값은?`,a:F((p+q)*f.d(r)),s:T`\(${p}f'(${r})+${q}f'(${r})=${p+q}\times${pr(f.d(r))}=${(p+q)*f.d(r)}\)`}},
+()=>{const f=cub(),r=nz(-2,2),v=f.v(r)-r*f.d(r);return{q:T`함수 \(f(x)=${f.t}\)에 대하여 \(\displaystyle\lim_{x\to ${r}}\frac{xf(${r})${r<0?'+':'-'}${Math.abs(r)===1?'':Math.abs(r)}f(x)}{${xm(r)}}\)의 값은?`,a:F(v),s:T`분자 \(=(${xm(r)})f(${r})-${pr(r)}\{f(x)-f(${r})\}\)이므로 극한은 \(f(${r})-${pr(r)}f'(${r})=${f.v(r)}-${pr(r)}\times${pr(f.d(r))}=${v}\)`}}]},
+{name:'도함수',g:[
+()=>{const a=nz(-2,3),b=R(-4,4),c=R(-5,5),d=R(-5,5),k=R(-2,3),v=3*a*k*k+2*b*k+c;return{q:T`함수 \(f(x)=${P([[a,'x^{3}'],[b,'x^{2}'],[c,'x'],[d,'']])}\)에 대하여 \(f'(${k})\)의 값은?`,a:F(v),s:T`\(f'(x)=${P([[3*a,'x^{2}'],[2*b,'x'],[c,'']])}\), \(f'(${k})=${v}\)`}},
+()=>{const a=nz(-4,4),b=nz(-3,3),c=R(-4,4),k=R(-2,2),v=2*k*(b*k+c)+(k*k+a)*b;return{q:T`함수 \(f(x)=(x^{2}${sg(a)})(${P([[b,'x'],[c,'']])})\)에 대하여 \(f'(${k})\)의 값은?`,a:F(v),s:T`곱의 미분법: \(f'(x)=2x(${P([[b,'x'],[c,'']])})+(x^{2}${sg(a)})\times${pr(b)}\). \(f'(${k})=${v}\)`}},
+()=>{const r=R(-2,2),m=R(1,4),p=R(-4,4),q=nz(-4,4),v=2*r*p+(r*r+m)*q;return{q:T`다항함수 \(f(x)\)가 \(\displaystyle\lim_{x\to ${r}}\frac{f(x)${sg(-p)}}{${xm(r)}}=${q}\)를 만족시킨다. \(g(x)=(x^{2}+${m})f(x)\)일 때, \(g'(${r})\)의 값은?`,a:F(v),s:T`조건에서 \(f(${r})=${p},\ f'(${r})=${q}\). \(g'(x)=2xf(x)+(x^{2}+${m})f'(x)\)이므로 \(g'(${r})=${2*r}\times${pr(p)}+${r*r+m}\times${pr(q)}=${v}\)`}}]},
+{name:'접선',g:[
+()=>{const a=R(-4,4),b=R(-4,4),k=R(-2,3);return{q:T`곡선 \(y=${P([[1,'x^{2}'],[a,'x'],[b,'']])}\) 위의 \(x=${k}\)인 점에서의 접선의 기울기는?`,a:F(2*k+a),s:T`\(y'=${P([[2,'x'],[a,'']])}\)에 \(x=${k}\)를 대입하면 ${2*k+a}`}},
+()=>{const a=R(-4,4),b=R(-4,4),k=nz(-2,2),v=b-2*k**3;return{q:T`곡선 \(y=${P([[1,'x^{3}'],[a,'x'],[b,'']])}\) 위의 \(x=${k}\)인 점에서의 접선의 \(y\)절편은?`,a:F(v),s:T`접점 \((${k},\,${k**3+a*k+b})\), 기울기 \(${3*k*k+a}\). 접선 \(y=${3*k*k+a}(${xm(k)})${sg(k**3+a*k+b)}\)에 \(x=0\)을 넣으면 ${v}`}},
+()=>{const c=R(-3,3),a=R(-3,4),t=pick([1,2,-1,-2]),Y=c-2*t**3;return{q:T`점 \((0,\,${Y})\)에서 곡선 \(y=${P([[1,'x^{3}'],[-a,'x'],[c,'']])}\)에 그은 접선의 기울기는?`,a:F(3*t*t-a),s:T`접점의 \(x\)좌표를 \(t\)라 하면 접선 \(y=(3t^{2}${sg(-a)})(x-t)+t^{3}${sg(-a)}t${sg(c)}\). \(x=0\) 대입: \(-2t^{3}${sg(c)}=${Y}\), \(t=${t}\). 기울기 \(${3*t*t-a}\)`}}]},
+{name:'증가·감소와 극값',g:[
+()=>{const a=R(1,3),c=R(-5,5),mx=pick([1,0]),v=mx?2*a**3+c:c-2*a**3;return{q:T`함수 \(f(x)=${P([[1,'x^{3}'],[-3*a*a,'x'],[c,'']])}\)의 ${mx?'극댓값':'극솟값'}은?`,a:F(v),s:T`\(f'(x)=3(x+${a})(x-${a})\). ${mx?T`\(x=-${a}\)에서 극대`:T`\(x=${a}\)에서 극소`}, 값은 ${v}`}},
+()=>{const m=R(3,12);let n=0;for(let a=-20;a<=20;a++)if(a*a<=3*m)n++;return{q:T`함수 \(f(x)=x^{3}+ax^{2}+${m}x+1\)이 실수 전체의 집합에서 증가하도록 하는 정수 \(a\)의 개수는?`,a:F(n),s:T`\(f'(x)=3x^{2}+2ax+${m}\ge0\)이려면 \(\frac{D}{4}=a^{2}-${3*m}\le0\). 정수 \(a\)는 ${n}개`}},
+()=>{const al=R(-3,1),be=al+pick([2,4]),m=R(-5,5),v=m+(be-al)**3/2;return{q:T`삼차함수 \(f(x)=x^{3}+ax^{2}+bx+c\)가 \(x=${al}\)에서 극대, \(x=${be}\)에서 극소이고 극솟값이 \(${m}\)일 때, 극댓값은?`,a:F(v),s:T`\(f'(x)=3(${xm(al)})(${xm(be)})\). \(f(${al})-f(${be})=-\displaystyle\int_{${al}}^{${be}}f'(x)\,dx=\frac{(${be}-${pr(al)})^{3}}{2}=${(be-al)**3/2}\). 극댓값 ${v}`}}]},
+{name:'최대·최소',g:[
+()=>{const a=nz(-4,4),c=R(-5,5);return{q:T`함수 \(f(x)=${P([[-1,'x^{2}'],[2*a,'x'],[c,'']])}\)의 최댓값은?`,a:F(a*a+c),s:T`\(f'(x)=-2x${sg(2*a)}=0\)에서 \(x=${a}\). 최댓값 \(f(${a})=${a*a+c}\)`}},
+()=>{const k=R(1,2),t=R(k+1,2*k+1),c=R(-4,4),mn=c-2*k**3,ft=t**3-3*k*k*t+c,mx=Math.max(c,ft);return{q:T`닫힌구간 \([0,\,${t}]\)에서 함수 \(f(x)=${P([[1,'x^{3}'],[-3*k*k,'x'],[c,'']])}\)의 최댓값과 최솟값의 합은?`,a:F(mx+mn),s:T`\(f'(x)=3(x+${k})(x-${k})\). \(f(0)=${c}\), \(f(${k})=${mn}\), \(f(${t})=${ft}\). 최댓값 ${mx}, 최솟값 ${mn}, 합 ${mx+mn}`}},
+()=>{const k=R(1,3);if(Math.random()<.5)return{q:T`한 변의 길이가 \(${6*k}\)인 정사각형 모양의 종이의 네 귀퉁이에서 한 변의 길이가 \(x\)인 정사각형을 잘라 내고 접어서 뚜껑이 없는 상자를 만들 때, 상자의 부피의 최댓값은?`,a:F(16*k**3),s:T`\(V=x(${6*k}-2x)^{2}\), \(V'=(${6*k}-2x)(${6*k}-6x)\). \(0<x<${3*k}\)에서 \(x=${k}\)일 때 최대: \(${k}\times${4*k}^{2}=${16*k**3}\)`};
+return{q:T`곡선 \(y=${3*k*k}-x^{2}\)과 \(x\)축으로 둘러싸인 부분에 한 변이 \(x\)축 위에 있고 두 꼭짓점이 곡선 위에 있는 직사각형을 그릴 때, 직사각형의 넓이의 최댓값은?`,a:F(4*k**3),s:T`꼭짓점 \((x,\,${3*k*k}-x^{2})\)에 대해 \(S=2x(${3*k*k}-x^{2})\), \(S'=${6*k*k}-6x^{2}=0\)에서 \(x=${k}\). 최댓값 ${4*k**3}`}}]}]},
+{name:'적분',parts:[
+{name:'부정적분',g:[
+()=>{const a=nz(-2,2),b=nz(-3,3),c=R(-4,4),d=R(-4,4),k=R(1,3),v=a*k**3+b*k*k+c*k+d;return{q:T`함수 \(f(x)\)에 대하여 \(f'(x)=${P([[3*a,'x^{2}'],[2*b,'x'],[c,'']])}\), \(f(0)=${d}\)일 때, \(f(${k})\)의 값은?`,a:F(v),s:T`\(f(x)=${P([[a,'x^{3}'],[b,'x^{2}'],[c,'x'],[d,'']])}\)이므로 \(f(${k})=${v}\)`}},
+()=>{const a=nz(-3,3),c=R(-3,3),d=1+a+c;return{q:T`함수 \(f(x)\)에 대하여 \(f'(x)=3x^{2}+2ax\) (\(a\)는 상수), \(f(0)=${c}\), \(f(1)=${d}\)일 때, \(f(2)\)의 값은?`,a:F(8+4*a+c),s:T`\(f(x)=x^{3}+ax^{2}${sg(c)}\). \(f(1)=1+a${sg(c)}=${d}\)에서 \(a=${a}\). \(f(2)=${8+4*a+c}\)`}},
+()=>{const p=nz(-5,5),a=-1-p,k=R(2,3),v=3*k*k+2*a*k+p;return{q:T`다항함수 \(f(x)\)가 모든 실수 \(x\)에 대하여 \(\displaystyle\int_{1}^{x}f(t)\,dt=x^{3}+ax^{2}${sg(p)}x\)를 만족시킬 때, \(f(${k})\)의 값은? (단, \(a\)는 상수)`,a:F(v),s:T`\(x=1\) 대입: \(0=1+a${sg(p)}\), \(a=${a}\). 양변 미분: \(f(x)=${P([[3,'x^{2}'],[2*a,'x'],[p,'']])}\), \(f(${k})=${v}\)`}}]},
+{name:'정적분',g:[
+()=>{const a=nz(-2,2),b=R(-3,3),c=R(-4,4),k=R(1,3),v=a*k**3+b*k*k+c*k;return{q:T`\(\displaystyle\int_{0}^{${k}}(${P([[3*a,'x^{2}'],[2*b,'x'],[c,'']])})\,dx\)의 값은?`,a:F(v),s:T`\(\left[${P([[a,'x^{3}'],[b,'x^{2}'],[c,'x']])}\right]_{0}^{${k}}=${v}\)`}},
+()=>{const a=nz(-2,2),b=nz(-5,5),c=R(-4,4),k=R(1,3),v=2*(a*k**3+c*k);return{q:T`\(\displaystyle\int_{-${k}}^{${k}}(${P([[1,'x^{3}'],[3*a,'x^{2}'],[b,'x'],[c,'']])})\,dx\)의 값은?`,a:F(v),s:T`홀수차항의 적분은 0. \(2\displaystyle\int_{0}^{${k}}(${P([[3*a,'x^{2}'],[c,'']])})\,dx=2\times(${a*k**3+c*k})=${v}\)`}},
+()=>{const p=pick([-6,-2,1,3,4,6]),A=F(2,2-p),V=F(24-8*p,2-p);return{q:T`함수 \(f(x)=3x^{2}${p<0?'-':'+'}${Math.abs(p)===1?'':Math.abs(p)}x\displaystyle\int_{0}^{1}f(t)\,dt\)에 대하여 \(f(2)\)의 값은?`,a:V,s:T`\(\displaystyle\int_{0}^{1}f(t)\,dt=A\)라 하면 \(f(x)=3x^{2}${sg(p)}Ax\). \(A=1+\frac{${p}}{2}A\)에서 \(A=${tx(A)}\). \(f(2)=12+${2*p}\times${tx(A)}=${tx(V)}\)`}}]},
+{name:'넓이',g:[
+()=>{const r1=R(-2,2),d=R(1,4),r2=r1+d,A=F(d**3,2);return{q:T`곡선 \(y=${P([[-3,'x^{2}'],[3*(r1+r2),'x'],[-3*r1*r2,'']])}\)과 \(x\)축으로 둘러싸인 부분의 넓이는?`,a:A,s:T`\(y=-3(${xm(r1)})(${xm(r2)})\). 넓이 \(=\frac{3\times${d}^{3}}{6}=${tx(A)}\)`}},
+()=>{const r1=R(-2,1),d=R(1,4),r2=r1+d,S=r1+r2,Pv=r1*r2,A=F(d**3,6);return{q:T`곡선 \(y=x^{2}\)과 직선 \(y=${P([[S,'x'],[-Pv,'']])}\)으로 둘러싸인 부분의 넓이는?`,a:A,s:T`교점 \(x=${r1},\ ${r2}\). 넓이 \(=\displaystyle\int_{${r1}}^{${r2}}\{(${P([[S,'x'],[-Pv,'']])})-x^{2}\}dx=\frac{${d}^{3}}{6}=${tx(A)}\)`}},
+()=>{const r=R(1,3),t=r+R(1,2),A=F(2*r**3+2*t**3-3*r*t*t,6);return{q:T`곡선 \(y=x^{2}-${r===1?'':r}x\)와 \(x\)축 및 직선 \(x=${t}\)으로 둘러싸인 두 부분의 넓이의 합은?`,a:A,s:T`\(0\le x\le${r}\)에서 \(y\le0\), \(${r}\le x\le${t}\)에서 \(y\ge0\). \(-\displaystyle\int_{0}^{${r}}y\,dx+\int_{${r}}^{${t}}y\,dx=${tx(F(r**3,6))}+${tx(F(2*t**3-3*r*t*t+r**3,6))}=${tx(A)}\)`}}]},
+{name:'속도와 거리',g:[
+()=>{const a=nz(-3,3),b=R(-4,6),k=R(1,4),v=a*k*k+b*k;return{q:T`수직선 위를 움직이는 점 P의 시각 \(t\)에서의 속도가 \(v(t)=${P([[2*a,'t'],[b,'']])}\)이다. 시각 \(t=0\)에서 원점을 출발한 점 P의 시각 \(t=${k}\)에서의 위치는?`,a:F(v),s:T`\(x(${k})=\displaystyle\int_{0}^{${k}}(${P([[2*a,'t'],[b,'']])})\,dt=${v}\)`}},
+()=>{const r=R(1,4),T1=r+R(1,3),v=r*r+(T1-r)**2;return{q:T`수직선 위를 움직이는 점 P의 시각 \(t\)에서의 속도가 \(v(t)=${P([[-2,'t'],[2*r,'']])}\)일 때, 시각 \(t=0\)에서 \(t=${T1}\)까지 점 P가 움직인 거리는?`,a:F(v),s:T`\(t=${r}\)에서 방향이 바뀝니다. \(\displaystyle\int_{0}^{${T1}}|v(t)|\,dt=${r*r}+${(T1-r)**2}=${v}\)`}},
+()=>{const a=pick([1,2,3]),k=pick([3,6]),A=F(8*a*k**3,27);return{q:T`수직선 위를 움직이는 점 P의 시각 \(t\)에서의 속도가 \(v(t)=${P([[3*a,'t^{2}'],[-2*a*k,'t']])}\)이다. 시각 \(t=0\)에서 원점을 출발한 점 P가 다시 원점으로 돌아올 때까지 움직인 거리는?`,a:A,s:T`위치 \(x(t)=${a===1?'':a}(t^{3}-${k}t^{2})=0\)에서 \(t=${k}\). \(t=${2*k/3}\)에서 방향이 바뀌고 \(x(${2*k/3})=${-4*a*k**3/27}\). 거리 \(=2\times${4*a*k**3/27}=${tx(A)}\)`}}]}]}]}
+};
+
+const HINTS={
+'거듭제곱근':[T`같은 \(n\)제곱근끼리는 근호 안을 곱할 수 있어요: \(\sqrt[n]{a}\sqrt[n]{b}=\sqrt[n]{ab}\)`,T`실수인 \(n\)제곱근의 개수는 \(n\)의 홀짝과 수의 부호로 정해져요.`,T`식을 인수분해해서 \(n\)의 범위별로 부호를 따져 보세요. 0의 \(n\)제곱근은 0 하나뿐이에요.`],
+'지수':[T`큰 수를 밑의 거듭제곱으로 바꿔 지수끼리 계산하세요.`,T`\(a^{x}=A,\ a^{-x}=B\)로 두고 \(A^{3}+B^{3}\)의 인수분해를 떠올리세요.`,T`식을 \(c^{(\text{지수})}\) 꼴로 정리하고, 지수가 자연수가 될 조건을 찾으세요.`],
+'로그':[T`\(\log_a x-\log_a y=\log_a\frac{x}{y}\)`,T`밑 변환: \(\log_a b\times\log_b c=\log_a c\), \(\log_{a^m}b^n=\frac{n}{m}\log_a b\)`,T`\(\log_2 a=s,\ \log_2 b=t\)로 두면 구하는 값은 \(\frac{s^2+t^2}{st}\), \(s^2+t^2=(s+t)^2-2st\)`],
+'지수함수':[T`\(x\)에 값을 직접 대입하세요.`,T`밑이 1보다 작으면 감소함수 → 구간 양 끝에서 최대·최소`,T`\(2^{x}=t\)로 치환하면 \(t\)의 이차함수예요. \(t\)의 범위부터 구하세요.`],
+'로그함수':[T`진수가 밑의 거듭제곱이 되는지 보세요.`,T`\(y=\log_2(x-a)+b\)의 점근선은 \(x=a\)`,T`\(\log_2 x=t\)로 치환, \(\log_2 x^{k}=k\log_2 x\)`],
+'방정식·부등식':[T`양변의 밑을 같게 만들면 지수끼리 비교할 수 있어요.`,T`진수 조건(진수 \(>0\))을 먼저 챙기세요.`,T`밑이 1보다 작으면 지수의 부등호 방향이 반대!`],
+'호도법·부채꼴':[T`\(180^{\circ}=\pi\)`,T`부채꼴의 넓이 \(S=\frac{1}{2}rl\)`,T`호의 길이를 (둘레 \(-\,2r\))로 두고 넓이를 \(r\)의 이차함수로`],
+'삼각함수의 값':[T`\(2\pi\)의 정수배를 더하거나 빼서 \(0\sim2\pi\) 사이 각으로 바꾸세요.`,T`양변을 제곱하고 \(\sin^2\theta+\cos^2\theta=1\)을 쓰세요.`,T`제곱해서 \(\sin\theta\cos\theta\)부터 구하세요. \(\tan\theta+\frac{1}{\tan\theta}=\frac{1}{\sin\theta\cos\theta}\)`],
+'삼각함수의 그래프':[T`\(-1\le\sin x\le1\), \(-1\le\cos x\le1\)`,T`최댓값 \(a+c\), 최솟값 \(-a+c\), 주기 \(\frac{2\pi}{b}\)`,T`\(\sin^2x+\cos^2x=1\)로 한 종류의 함수로 통일한 뒤 인수분해`],
+'사인·코사인법칙':[T`코사인법칙 \(a^2=b^2+c^2-2bc\cos A\)`,T`사인법칙 \(\frac{a}{\sin A}=2R\)`,T`코사인법칙으로 \(\cos A\) → \(\sin A\) → 사인법칙 순서로`],
+'등차수열':[T`공차 \(d=\frac{a_3-a_1}{2}\), \(a_n=a_1+(n-1)d\)`,T`\(a_1,\ d\)를 구한 뒤 \(S_n=\frac{n\{2a_1+(n-1)d\}}{2}\)`,T`공차가 음수면 양수(또는 0)인 항까지 더할 때 합이 최대`],
+'등비수열':[T`공비 \(r=\frac{a_2}{a_1}\), \(a_n=a_1r^{n-1}\)`,T`\(\frac{a_5}{a_2}=r^{3}\)`,T`\(S_6-S_3=r^{3}S_3\), \(S_9-S_6=r^{6}S_3\)`],
+'합의 기호 ∑':[T`\(\sum k=\frac{n(n+1)}{2}\), 상수의 합은 \(cn\)`,T`\(\sum k^2=\frac{n(n+1)(2n+1)}{6}\), ∑는 항별로 나눌 수 있어요.`,T`부분분수로 나누거나 유리화해서 소거되는 항을 찾으세요.`],
+'귀납적 정의':[T`\(a_2\)부터 차례로 대입하세요.`,T`짝수/홀수 조건을 확인하며 한 항씩 계산`,T`마지막 항부터 거꾸로: 앞 항은 \(2a\), 또는 홀수 조건을 만족하는 다른 값`],
+'극한 계산':[T`분자를 인수분해해 \((x-a)\)를 약분`,T`\(\infty-\infty\) 꼴은 유리화, \(\frac{\infty}{\infty}\) 꼴은 최고차항으로 나누기`,T`\(x\to-\infty\)면 \(x=-t\)로 치환 / 근호가 있는 \(\frac{0}{0}\) 꼴은 유리화`],
+'미정계수':[T`분모 \(\to0\)이고 극한값이 존재하면 분자 \(\to0\)`,T`분자는 \((x-a)\)를 인수로 가져요.`,T`첫 조건으로 최고차·이차항 계수, 둘째 조건으로 상수항과 일차항 계수`],
+'연속':[T`\(x\ne a\)일 때 식을 약분해 극한값을 구하세요.`,T`경계점에서 좌극한 = 우극한 = 함숫값`,T`\(f\)가 불연속인 점에서 \(g\)가 0이어야 \(fg\)가 연속`],
+'미분계수':[T`미분계수의 정의 그대로 \(f'(a)\)`,T`\(f(a)\)를 빼고 더해서 두 극한으로 나누세요.`,T`분자에 \(r f(r)\)을 빼고 더해서 정리`],
+'도함수':[T`\((x^n)'=nx^{n-1}\)`,T`곱의 미분법 \(\{fg\}'=f'g+fg'\)`,T`극한 조건에서 \(f(r)\)과 \(f'(r)\)을 읽어 내세요.`],
+'접선':[T`접선의 기울기 \(=f'(a)\)`,T`접선 \(y=f'(t)(x-t)+f(t)\)에 \(x=0\)`,T`접점을 \((t,\,f(t))\)로 두고 주어진 점을 접선에 대입`],
+'증가·감소와 극값':[T`\(f'(x)=0\)인 점에서 부호 변화를 확인`,T`실수 전체에서 증가 \(\Leftrightarrow f'(x)\ge0\Leftrightarrow\) 판별식 \(\le0\)`,T`\(f(\alpha)-f(\beta)=-\int_{\alpha}^{\beta}f'(x)\,dx\)면 계수를 몰라도 돼요.`],
+'최대·최소':[T`이차함수는 꼭짓점에서 최대`,T`극값과 구간 양 끝 값을 모두 비교`,T`길이를 \(x\)로 나타내 넓이(부피) 함수를 세우고 미분`],
+'부정적분':[T`\(f'\)을 적분하고 \(f(0)\)으로 적분상수 결정`,T`\(f(x)=x^3+ax^2+C\)로 두고 두 조건 대입`,T`\(x=1\)을 넣으면 좌변은 0. 그다음 양변을 미분`],
+'정적분':[T`부정적분을 구해 (위끝) \(-\) (아래끝)`,T`\(\int_{-a}^{a}\)에서 홀수차항은 0`,T`\(\int_0^1 f(t)\,dt\)는 상수! \(A\)로 두고 방정식을 세우세요.`],
+'넓이':[T`\(x\)축과의 교점을 구하고 \(\int|y|\,dx\)`,T`교점 사이에서 (위 \(-\) 아래) 적분`,T`부호가 바뀌는 점에서 구간을 나눠 각각 절댓값`],
+'속도와 거리':[T`위치 \(=\int_0^{t}v(t)\,dt\)`,T`움직인 거리 \(=\int|v(t)|\,dt\), 방향이 바뀌는 시각에서 구간 나누기`,T`원점으로 돌아오는 시각은 위치 \(x(t)=0\)`]
+};
+
+const $=id=>document.getElementById(id);
+const st={subj:'alg',unit:0,part:-1,lvl:3,mode:'mc',no:0,solved:0,right:0,streak:0,cur:null,done:false,hint:false,nf:'all',auto:true};
+let stats={},notes=[];
+const ls=(k,d)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}};
+const lsw=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+stats=ls('gicho-stats',{});notes=ls('gicho-notes',[]);
+{const s=ls('gicho-sel',null);if(s&&DATA[s.subj])Object.assign(st,{subj:s.subj,unit:Math.min(s.unit,DATA[s.subj].units.length-1),part:s.part,lvl:s.lvl,mode:s.mode,auto:s.auto!==false})}
+if(st.part>=DATA[st.subj].units[st.unit].parts.length)st.part=-1;
+const save=()=>{lsw('gicho-stats',stats);lsw('gicho-notes',notes);lsw('gicho-sel',{subj:st.subj,unit:st.unit,part:st.part,lvl:st.lvl,mode:st.mode,auto:st.auto})};
+const key=(u,p)=>st.subj+'|'+u+'|'+p;
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const typeset=el=>{if(window.MathJax&&MathJax.typesetPromise){MathJax.typesetClear&&MathJax.typesetClear([el]);return MathJax.typesetPromise([el]).catch(()=>{})}return Promise.resolve()};
+const seg=(items,cur,attr)=>items.map(([v,l])=>`<button data-${attr}="${v}" aria-pressed="${v===cur}">${esc(l)}</button>`).join('');
+function controls(){
+  const S=DATA[st.subj],U=S.units[st.unit];
+  $('subj').innerHTML=seg(Object.entries(DATA).map(([k,v])=>[k,v.name]),st.subj,'s');
+  $('unit').innerHTML=S.units.map((u,i)=>`<option value="${i}"${i===st.unit?' selected':''}>${esc(u.name)}</option>`).join('');
+  $('part').innerHTML=`<option value="-1"${st.part===-1?' selected':''}>단원 전체</option>`+U.parts.map((p,i)=>{const r=stats[key(st.unit,i)];return `<option value="${i}"${i===st.part?' selected':''}>${esc(p.name)}${r?` · ${r.c}/${r.t}`:''}</option>`}).join('');
+  $('lvl').innerHTML=seg([[2,'2점'],[3,'3점'],[4,'4점'],[0,'섞기']],st.lvl,'l');
+  $('mode').innerHTML=seg([['mc','객관식'],['sa','주관식']],st.mode,'m');
+  $('stat').innerHTML=`정답 <b>${st.right}</b>/${st.solved} · 연속 <b>${st.streak}</b>`;
+  $('ncnt').textContent=notes.length;
+}
+function choices(a){let pos=R(0,4);if(a.n>=0)pos=Math.min(pos,a.n);return [0,1,2,3,4].map(i=>F(a.n+(i-pos),a.d))}
+function newQ(){
+  const U=DATA[st.subj].units[st.unit],pi=st.part<0?R(0,U.parts.length-1):st.part,lv=st.lvl||R(2,4),p=U.parts[pi];
+  let o;for(let t=0;t<20;t++){try{o=p.g[lv-2]();break}catch(e){}}
+  st.no++;st.done=false;st.hint=false;$('paper').style.minHeight='';
+  st.cur={...o,pi,lv,pn:p.name,un:U.name,h:(HINTS[p.name]||[])[lv-2]||'',ch:choices(o.a),id:Date.now()+''+R(100,999),res:null,pick:null};
+  render();
+}
+const savedNote=()=>notes.find(n=>n.id===st.cur.id);
+function render(){
+  const c=st.cur,sn=savedNote(),pp=$('paper');pp.style.minHeight=pp.offsetHeight+'px';
+  const body=st.mode==='mc'
+   ?`<ol class="ch">${c.ch.map((v,i)=>{const ok=v.n===c.a.n&&v.d===c.a.d,cl=st.done?(ok?'ok':(i===c.pick?'bad':'')):'';return `<li class="${cl}"><button data-c="${i}"${st.done?' disabled':''}><span class="n">${i+1}</span><span>\\(${tx(v)}\\)</span></button></li>`}).join('')}</ol>`
+   :`<form class="sa" id="saf"><input id="sai" autocomplete="off" placeholder="답 입력 (예: 3/4, -2)" aria-label="답 입력"${st.done?' disabled':''}><button class="pb" type="submit"${st.done?' disabled':''}>채점</button></form>`;
+  const res=st.done?`<div class="res ${c.res}"><div class="v">${c.res==='ok'?'정답이에요':c.res==='bad'?'아쉬워요, 오답':'정답'} · \\(${tx(c.a)}\\)</div><div>${c.s}</div></div>`:'';
+  $('paper').innerHTML=`<div class="meta"><span class="no-">${st.no}번</span><span class="pill">${c.lv}점</span><span>${esc(c.un)} › ${esc(c.pn)}</span></div>
+  <div class="qt">${c.q}</div>${body}
+  ${padHTML()}
+  ${st.hint&&c.h?`<div class="hint"><b>힌트</b>${c.h}</div>`:''}${res}
+  ${sn?`<div class="memo"><textarea id="memo" placeholder="이 문제에 대한 메모 (풀이 아이디어, 실수한 부분 등)">${esc(sn.memo||'')}</textarea><small>노트에 저장됨 · 메모는 자동 저장돼요</small></div>`:''}
+  <div class="bar"><div class="l"><button class="gb" id="hintB" aria-pressed="${st.hint}"${c.h?'':' disabled'}>힌트</button><button class="gb" id="noteB" aria-pressed="${!!sn}">${sn?'저장됨':'노트에 저장'}</button></div>
+  <div class="r">${st.done?'':'<button class="gb" id="show">정답 보기</button>'}<button class="pb" id="next">다음 문제</button></div></div>`;
+  typeset(pp).then(()=>{pp.style.minHeight=''});setupPad();
+  const f=$('saf');if(f&&!st.done)f.addEventListener('submit',e=>{e.preventDefault();const v=parse($('sai').value);if(v===null){$('sai').focus();return}grade(Math.abs(v-c.a.n/c.a.d)<1e-9,null,false,$('sai').value)});
+  const m=$('memo');if(m)m.addEventListener('input',()=>{const n=savedNote();if(n){n.memo=m.value;save()}});
+}
+function parse(s){s=s.trim().replace(/\s/g,'').replace('−','-');if(!s)return null;if(s.includes('/')){const [a,b]=s.split('/').map(Number);return (isFinite(a)&&isFinite(b)&&b)?a/b:null}const v=Number(s);return isFinite(v)?v:null}
+function addNote(wrong){
+  const c=st.cur;if(savedNote()){if(wrong)savedNote().wrong=true;return}
+  notes.unshift({id:c.id,t:Date.now(),path:`${DATA[st.subj].name} › ${c.un} › ${c.pn}`,lv:c.lv,q:c.q,a:tx(c.a),s:c.s,h:c.h,memo:'',wrong:!!wrong,st:c.strokes||[],ph:c.ph||340});
+}
+function grade(ok,pickIdx,giveUp){
+  if(st.done)return;st.done=true;const c=st.cur;c.pick=pickIdx;c.res=giveUp?'giv':ok?'ok':'bad';
+  if(!giveUp){st.solved++;if(ok){st.right++;st.streak++}else st.streak=0;const k=key(st.unit,c.pi);const r=stats[k]||{c:0,t:0};r.t++;if(ok)r.c++;stats[k]=r}
+  if(!ok&&st.auto)addNote(true);
+  save();controls();render();$('next').focus({preventScroll:true});
+}
+function noteList(){
+  const L=notes.filter(n=>st.nf==='all'||(st.nf==='wrong'&&n.wrong)||(st.nf==='memo'&&n.memo&&n.memo.trim()));
+  $('list').innerHTML=L.length?L.map(n=>`<div class="card nt" data-id="${esc(n.id)}"><div class="meta"><span class="pill">${n.lv}점</span><span>${esc(n.path)}</span>${n.wrong?'<span class="tag">틀림</span>':''}<button class="del" data-del="${esc(n.id)}">삭제</button></div>
+  <div class="qt">${n.q}</div>${n.h?`<details><summary>힌트</summary>${n.h}</details>`:''}<details><summary>정답·해설</summary><b>답 \\(${n.a}\\)</b><br>${n.s}</details>
+  ${n.st&&n.st.length?`<canvas class="mini" data-pv="${esc(n.id)}"></canvas>`:''}<textarea data-memo="${esc(n.id)}" placeholder="메모">${esc(n.memo||'')}</textarea></div>`).join(''):`<div class="empty">${notes.length?'조건에 맞는 노트가 없어요.':'아직 저장한 문제가 없어요.<br>문제 아래 ‘노트에 저장’을 누르거나, 틀린 문제가 자동으로 모여요.'}</div>`;
+  $('nf').innerHTML=seg([['all','전체'],['wrong','틀린 문제'],['memo','메모 있음']],st.nf,'nf');
+  $('auto').checked=st.auto;
+  typeset($('list'));
+  document.querySelectorAll('canvas[data-pv]').forEach(cv=>{const n=notes.find(x=>x.id===cv.dataset.pv);if(!n)return;let my=0;for(const k of n.st)for(const p of k.p)my=Math.max(my,p[1]);const W=cv.clientWidth,kk=W/1000,H=Math.max(60,Math.min(n.ph,my+40)*kk),d=devicePixelRatio||1;cv.width=W*d;cv.height=H*d;cv.style.height=H+'px';const x=cv.getContext('2d');x.setTransform(d,0,0,d,0,0);paint(x,n.st,kk)});
+}
+const openNotes=o=>{document.body.classList.toggle('open',o);if(o){noteList();$('closeNotes').focus()}else{render()}};
+document.addEventListener('click',e=>{
+  const b=e.target.closest('button');if(!b)return;const d=b.dataset;
+  if(d.s!==undefined){if(d.s!==st.subj){st.subj=d.s;st.unit=0;st.part=-1;save();controls();newQ()}}
+  else if(d.l!==undefined){st.lvl=+d.l;save();controls();newQ()}
+  else if(d.m!==undefined){if(st.mode!==d.m){st.mode=d.m;save();controls();render()}}
+  else if(d.c!==undefined){const i=+d.c,v=st.cur.ch[i];grade(v.n===st.cur.a.n&&v.d===st.cur.a.d,i)}
+  else if(d.nf!==undefined){st.nf=d.nf;noteList()}
+  else if(d.del!==undefined){notes=notes.filter(n=>n.id!==d.del);save();controls();noteList()}
+  else if(b.id==='next')newQ();
+  else if(b.id==='show')grade(false,null,true);
+  else if(b.id==='hintB'){st.hint=!st.hint;render()}
+  else if(b.id==='noteB'){if(savedNote())notes=notes.filter(n=>n.id!==st.cur.id);else addNote(st.cur.res==='bad');save();controls();render();const m=$('memo');m&&m.focus()}
+  else if(b.id==='openNotes')openNotes(true);
+  else if(b.id==='closeNotes')openNotes(false);
+});
+$('scrim').addEventListener('click',()=>openNotes(false));
+$('unit').addEventListener('change',e=>{st.unit=+e.target.value;st.part=-1;save();controls();newQ()});
+$('part').addEventListener('change',e=>{st.part=+e.target.value;save();controls();newQ()});
+$('auto').addEventListener('change',e=>{st.auto=e.target.checked;save()});
+$('list').addEventListener('input',e=>{const id=e.target.dataset.memo;if(id===undefined)return;const n=notes.find(x=>x.id===id);if(n){n.memo=e.target.value;save()}});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'&&document.body.classList.contains('open')){openNotes(false);return}
+  if(/INPUT|TEXTAREA|SELECT/.test(e.target.tagName)||document.body.classList.contains('open'))return;
+  if(/^[1-5]$/.test(e.key)&&st.mode==='mc'&&!st.done){const b=document.querySelector(`.ch button[data-c="${+e.key-1}"]`);b&&b.click()}
+  else if((e.key==='h'||e.key==='H')&&st.cur.h){st.hint=!st.hint;render()}
+  else if(e.key==='Enter'&&st.done){e.preventDefault();newQ()}
+});
+/* ---------- 풀이 필기 칸 ---------- */
+const PAD=Object.assign({open:true,color:'ink',finger:true,es:40},ls('gicho-pad',{}));
+const savePad=()=>lsw('gicho-pad',{open:PAD.open,color:PAD.color,finger:PAD.finger,es:PAD.es});
+const ES=[[24,'소'],[40,'중'],[64,'대']];
+let sticky=false,hold=false,holdUsed=false,holdT=0,api=null;
+const colorOf=k=>k==='blue'?'#2f6bff':k==='red'?'#e0443a':getComputedStyle(document.body).color;
+const penErase=e=>e&&e.pointerType==='pen'&&(e.buttons&34);
+const erasing=e=>sticky||hold||!!penErase(e);
+function paint(x,strokes,k){
+  x.lineCap='round';x.lineJoin='round';
+  for(const s of strokes){
+    x.globalCompositeOperation=s.t?'destination-out':'source-over';x.strokeStyle=x.fillStyle=s.t?'#000':colorOf(s.c);
+    const p=s.p,wd=q=>s.t?s.w*k:Math.max(.6,s.w*k*(.5+q[2]));
+    if(p.length===1){x.beginPath();x.arc(p[0][0]*k,p[0][1]*k,wd(p[0])/2,0,7);x.fill();continue}
+    for(let i=1;i<p.length;i++){x.beginPath();x.lineWidth=wd(p[i]);x.moveTo(p[i-1][0]*k,p[i-1][1]*k);x.lineTo(p[i][0]*k,p[i][1]*k);x.stroke()}
+  }
+  x.globalCompositeOperation='source-over';
+}
+function padHTML(){
+  const sw=c=>`<button class="tb" data-pc="${c}" aria-label="${c==='ink'?'검정':c==='blue'?'파랑':'빨강'} 펜"><span class="sw" style="background:${c==='ink'?'var(--ink)':colorOf(c)}"></span></button>`;
+  return `<div class="padw"><div class="padh"><span class="t">풀이 노트</span>${PAD.open?`${sw('ink')}${sw('blue')}${sw('red')}<button class="tb eh" id="ehB" title="누르는 동안 지우개 · 짧게 누르면 고정">지우개</button><button class="tb" id="esB">크기 ${ES.find(v=>v[0]===PAD.es)[1]}</button><button class="tb" id="undoB">되돌리기</button><button class="tb" id="clrB">전체 지우기</button><button class="tb" id="moreB">칸 늘리기</button><label class="fing"><input type="checkbox" id="fingB"${PAD.finger?' checked':''}>손가락으로 쓰기</label>`:''}<span class="sp"></span><button class="tb" id="padT">${PAD.open?'접기':'펼치기'}</button></div>${PAD.open?`<div class="padbox"><canvas id="pad" aria-label="풀이 필기 칸"></canvas><div class="ering" id="ering"></div></div><div class="padtip">지우개 버튼을 누르고 있는 동안 지우개, 떼면 펜으로 돌아와요. 짧게 누르면 지우개 고정 · S펜/스타일러스 버튼, 키보드 E도 지원</div>`:''}</div>`;
+}
+function padUI(){
+  const er=sticky||hold;
+  document.querySelectorAll('[data-pc]').forEach(b=>b.setAttribute('aria-pressed',!er&&PAD.color===b.dataset.pc));
+  const e=$('ehB');if(e){e.setAttribute('aria-pressed',er);e.textContent=sticky?'지우개 고정':'지우개'}
+  const z=$('esB');if(z)z.textContent='크기 '+ES.find(v=>v[0]===PAD.es)[1];
+  const cv=$('pad');if(cv)cv.classList.toggle('er',er);
+}
+let padRO=null;
+function syncNote(){const n=savedNote();if(n){n.st=st.cur.strokes;n.ph=st.cur.ph;save()}}
+function setupPad(){
+  padRO&&padRO.disconnect();padRO=null;api=null;
+  const cv=$('pad');if(!cv)return;const ring=$('ering'),c=st.cur;c.strokes=c.strokes||[];c.padH=c.padH||340;
+  let W=1,kk=1,cur=null;
+  const redraw=()=>{const x=cv.getContext('2d');x.clearRect(0,0,cv.width,cv.height);paint(x,c.strokes,kk)};
+  const fit=()=>{W=cv.clientWidth||1;kk=W/1000;c.ph=c.padH/kk;const d=devicePixelRatio||1;cv.style.height=c.padH+'px';cv.width=W*d;cv.height=c.padH*d;cv.getContext('2d').setTransform(d,0,0,d,0,0);redraw()};
+  padRO=new ResizeObserver(fit);padRO.observe(cv);fit();api={redraw,fit};
+  const rel=e=>{const r=cv.getBoundingClientRect();return [e.clientX-r.left,e.clientY-r.top]};
+  const pt=e=>{const [x,y]=rel(e);return [Math.round(x/kk*10)/10,Math.round(y/kk*10)/10,e.pointerType==='pen'?Math.round((e.pressure||.5)*100)/100:.5]};
+  const showRing=e=>{if(erasing(e)||(cur&&cur.t)){const [x,y]=rel(e);ring.style.display='block';ring.style.width=ring.style.height=PAD.es+'px';ring.style.left=x+'px';ring.style.top=y+'px'}else ring.style.display='none'};
+  ['touchstart','touchmove'].forEach(t=>cv.addEventListener(t,e=>e.preventDefault(),{passive:false}));
+  cv.addEventListener('contextmenu',e=>e.preventDefault());
+  cv.addEventListener('pointerdown',e=>{
+    e.preventDefault();
+    if(!PAD.finger&&e.pointerType==='touch')return;
+    if(e.pointerType==='mouse'&&e.button!==0)return;
+    cv.setPointerCapture(e.pointerId);if(hold)holdUsed=true;
+    const er=erasing(e);
+    cur={t:er?1:0,c:PAD.color,w:er?PAD.es/kk:2.4/kk,p:[pt(e)],id:e.pointerId};c.strokes.push(cur);
+    paint(cv.getContext('2d'),[{...cur}],kk);showRing(e);
+  });
+  cv.addEventListener('pointermove',e=>{
+    showRing(e);if(!cur||e.pointerId!==cur.id)return;e.preventDefault();
+    const evs=e.getCoalescedEvents?e.getCoalescedEvents():[];const x=cv.getContext('2d');
+    for(const ev of (evs.length?evs:[e])){const q=pt(ev),p=cur.p[cur.p.length-1];if(Math.abs(q[0]-p[0])+Math.abs(q[1]-p[1])<.8)continue;cur.p.push(q);paint(x,[{t:cur.t,c:cur.c,w:cur.w,p:[p,q]}],kk)}
+  });
+  const end=e=>{if(cur&&e.pointerId===cur.id){cur=null;syncNote()}showRing(e)};
+  cv.addEventListener('pointerup',end);cv.addEventListener('pointercancel',end);
+  cv.addEventListener('pointerleave',()=>{if(!cur)ring.style.display='none'});
+  const eh=$('ehB');
+  eh.addEventListener('pointerdown',e=>{e.preventDefault();eh.setPointerCapture(e.pointerId);hold=true;holdUsed=false;holdT=Date.now();padUI()});
+  const rel2=()=>{if(!hold)return;hold=false;if(!holdUsed&&Date.now()-holdT<300)sticky=!sticky;else if(holdUsed)sticky=false;padUI();ring.style.display='none'};
+  eh.addEventListener('pointerup',rel2);eh.addEventListener('pointercancel',rel2);eh.addEventListener('contextmenu',e=>e.preventDefault());
+  padUI();
+}
+document.addEventListener('click',e=>{
+  const b=e.target.closest('button');if(!b)return;
+  if(b.dataset.pc){PAD.color=b.dataset.pc;sticky=false;savePad();padUI()}
+  else if(b.id==='esB'){const i=ES.findIndex(v=>v[0]===PAD.es);PAD.es=ES[(i+1)%ES.length][0];savePad();padUI()}
+  else if(b.id==='undoB'){st.cur.strokes&&st.cur.strokes.pop();syncNote();api&&api.redraw()}
+  else if(b.id==='clrB'){if(st.cur.strokes)st.cur.strokes.length=0;syncNote();api&&api.redraw()}
+  else if(b.id==='moreB'){st.cur.padH=(st.cur.padH||340)+240;api&&api.fit();syncNote()}
+  else if(b.id==='padT'){PAD.open=!PAD.open;savePad();render()}
+});
+document.addEventListener('change',e=>{if(e.target.id==='fingB'){PAD.finger=e.target.checked;savePad()}});
+document.addEventListener('keydown',e=>{if((e.key==='e'||e.key==='E')&&!e.repeat&&!/INPUT|TEXTAREA|SELECT/.test(e.target.tagName)&&$('pad')){hold=true;holdUsed=true;padUI()}});
+document.addEventListener('keyup',e=>{if(e.key==='e'||e.key==='E'){if(hold){hold=false;padUI()}}});
+controls();newQ();
+}
+</script>
+</body>
+</html>
